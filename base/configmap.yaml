@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: yusi-config
+  namespace: yusi
+data:
+  SPRING_PROFILES_ACTIVE: "prod"
+  EMBEDDING_MODEL_NAME: "BAAI/bge-m3"
+  EMBEDDING_MODEL_DIMENSION: "1024"
+  CHAT_MODEL_NAME: "deepseek-chat"
+  MYSQL_HOST: "mysql-service.infra.svc.cluster.local"
+  MYSQL_PORT: "3306"
+  MYSQL_DB: "yusi"
+  REDIS_HOST: "redis-service.infra.svc.cluster.local"
+  REDIS_PORT: "6379"
+  MILVUS_HOST: "milvus-service.infra.svc.cluster.local"
+  MILVUS_PORT: "19530"

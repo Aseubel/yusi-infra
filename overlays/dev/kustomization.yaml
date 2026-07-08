@@ -1,0 +1,33 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: yusi-dev
+
+resources:
+  - ../../base
+
+patches:
+  - target:
+      kind: Deployment
+      name: yusi-backend
+    patch: |-
+      - op: replace
+        path: /spec/replicas
+        value: 1
+  - target:
+      kind: Deployment
+      name: yusi-frontend
+    patch: |-
+      - op: replace
+        path: /spec/replicas
+        value: 1
+  - target:
+      kind: Ingress
+      name: yusi-ingress
+    patch: |-
+      - op: replace
+        path: /spec/rules/0/host
+        value: yusi-dev.aseubel.com
+      - op: replace
+        path: /spec/tls/0/hosts/0
+        value: yusi-dev.aseubel.com

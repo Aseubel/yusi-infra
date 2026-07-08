@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: yusi-mcp
+  namespace: yusi
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: yusi-mcp
+  template:
+    metadata:
+      labels:
+        app: yusi-mcp
+    spec:
+      containers:
+      - name: mcp
+        image: yusi-mcp:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 11611
+          name: http
+        env:
+        - name: GIN_MODE
+          value: "release"
+        - name: GRPC_BACKEND_TARGET
+          value: "yusi-backend.yusi.svc.cluster.local:9090"
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+          limits:
+            cpu: "500m"
+            memory: "512Mi"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 11611
+          initialDelaySeconds: 10
+          periodSeconds: 20
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 11611
+          initialDelaySeconds: 5
+          periodSeconds: 10
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: yusi-mcp
+  namespace: yusi
+spec:
+  ports:
+  - port: 11611
+    targetPort: 11611
+    name: http
+  selector:
+    app: yusi-mcp

@@ -1,0 +1,98 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: yusi-backend
+  namespace: yusi
+spec:
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: yusi-backend
+  template:
+    metadata:
+      labels:
+        app: yusi-backend
+    spec:
+      containers:
+      - name: backend
+        image: yusi-backend:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 20611
+          name: http
+        - containerPort: 9090
+          name: grpc
+        envFrom:
+        - configMapRef:
+            name: yusi-config
+        env:
+        - name: SPRING_DATASOURCE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: yusi-secret
+              key: MYSQL_PASSWORD
+        - name: CHAT_MODEL_APIKEY
+          valueFrom:
+            secretKeyRef:
+              name: yusi-secret
+              key: CHAT_MODEL_APIKEY
+        - name: EMBEDDING_MODEL_APIKEY
+          valueFrom:
+            secretKeyRef:
+              name: yusi-secret
+              key: EMBEDDING_MODEL_APIKEY
+        - name: YUSI_ENCRYPTION_KEY
+          valueFrom:
+            secretKeyRef:
+              name: yusi-secret
+              key: YUSI_ENCRYPTION_KEY
+        - name: SPRING_DATASOURCE_URL
+          value: "jdbc:mysql://$(MYSQL_HOST):$(MYSQL_PORT)/$(MYSQL_DB)?useUnicode=true&characterEncoding=utf8&autoReconnect=true&zeroDateTimeBehavior=convertToNull&serverTimezone=UTC&useSSL=false"
+        - name: REDIS_SDK_CONFIG_HOST
+          value: "$(REDIS_HOST)"
+        - name: REDIS_SDK_CONFIG_PORT
+          value: "$(REDIS_PORT)"
+        resources:
+          requests:
+            cpu: "500m"
+            memory: "1Gi"
+          limits:
+            cpu: "2000m"
+            memory: "2Gi"
+        livenessProbe:
+          httpGet:
+            path: /actuator/health/liveness
+            port: 20611
+          initialDelaySeconds: 45
+          periodSeconds: 15
+        readinessProbe:
+          httpGet:
+            path: /actuator/health/readiness
+            port: 20611
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        lifecycle:
+          preStop:
+            exec:
+              command: ["/bin/sh", "-c", "sleep 15"]
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: yusi-backend
+  namespace: yusi
+spec:
+  ports:
+  - port: 20611
+    targetPort: 20611
+    name: http
+  - port: 9090
+    targetPort: 9090
+    name: grpc
+  selector:
+    app: yusi-backend

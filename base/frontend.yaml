@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: yusi-frontend
+  namespace: yusi
+spec:
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: yusi-frontend
+  template:
+    metadata:
+      labels:
+        app: yusi-frontend
+    spec:
+      containers:
+      - name: frontend
+        image: yusi-frontend:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+          name: http
+        env:
+        - name: AMAP_JS_KEY
+          valueFrom:
+            secretKeyRef:
+              name: yusi-secret
+              key: AMAP_JS_KEY
+        - name: AMAP_SECURITY_CODE
+          valueFrom:
+            secretKeyRef:
+              name: yusi-secret
+              key: AMAP_SECURITY_CODE
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+          limits:
+            cpu: "300m"
+            memory: "256Mi"
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8080
+          initialDelaySeconds: 10
+          periodSeconds: 20
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 10
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: yusi-frontend
+  namespace: yusi
+spec:
+  ports:
+  - port: 8080
+    targetPort: 8080
+    name: http
+  selector:
+    app: yusi-frontend
