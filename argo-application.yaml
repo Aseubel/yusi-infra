@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: yusi-app-prod
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: 'git://172.20.0.1/yusi-infra'
+    targetRevision: HEAD
+    path: overlays/prod
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: yusi-prod
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
