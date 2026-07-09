@@ -61,6 +61,21 @@ spec:
             secretKeyRef:
               name: yusi-secret
               key: YUSI_ENCRYPTION_KEY
+        - name: YUSI_JWT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: yusi-secret
+              key: YUSI_JWT_SECRET
+        - name: YUSI_RSA_PUBLIC_KEY
+          valueFrom:
+            secretKeyRef:
+              name: yusi-secret
+              key: YUSI_RSA_PUBLIC_KEY
+        - name: YUSI_RSA_PRIVATE_KEY
+          valueFrom:
+            secretKeyRef:
+              name: yusi-secret
+              key: YUSI_RSA_PRIVATE_KEY
         - name: REDIS_SDK_CONFIG_PASSWORD
           valueFrom:
             secretKeyRef:
