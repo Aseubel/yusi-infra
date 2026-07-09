@@ -25,7 +25,7 @@ spec:
           service:
             name: yusi-backend
             port:
-              number: 20611
+              number: 611
       - path: /mcp
         pathType: Prefix
         backend:

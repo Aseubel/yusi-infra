@@ -23,7 +23,7 @@ spec:
         image: yusi-backend:latest
         imagePullPolicy: IfNotPresent
         ports:
-        - containerPort: 20611
+        - containerPort: 611
           name: http
         - containerPort: 9090
           name: grpc
@@ -127,13 +127,13 @@ spec:
         livenessProbe:
           httpGet:
             path: /actuator/health/liveness
-            port: 20611
+            port: 611
           initialDelaySeconds: 45
           periodSeconds: 15
         readinessProbe:
           httpGet:
             path: /actuator/health/readiness
-            port: 20611
+            port: 611
           initialDelaySeconds: 30
           periodSeconds: 10
         lifecycle:
@@ -148,8 +148,8 @@ metadata:
   namespace: yusi
 spec:
   ports:
-  - port: 20611
-    targetPort: 20611
+  - port: 611
+    targetPort: 611
     name: http
   - port: 9090
     targetPort: 9090
