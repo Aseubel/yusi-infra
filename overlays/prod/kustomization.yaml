@@ -20,10 +20,10 @@ patches:
 images:
 - name: yusi-backend
   newName: ghcr.io/aseubel/yusi/yusi-backend
-  newTag: 9222a0710b088c9ec4eb4fa68a857a09fbec5977
+  newTag: 630ebdc250264a6deb12922e0a718189884166cc
 - name: yusi-frontend
   newName: ghcr.io/aseubel/yusi/yusi-frontend
-  newTag: 9222a0710b088c9ec4eb4fa68a857a09fbec5977
+  newTag: 630ebdc250264a6deb12922e0a718189884166cc
 - name: yusi-mcp
   newName: ghcr.io/aseubel/yusi/yusi-mcp
-  newTag: 9222a0710b088c9ec4eb4fa68a857a09fbec5977
+  newTag: 630ebdc250264a6deb12922e0a718189884166cc
