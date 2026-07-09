@@ -76,6 +76,11 @@ spec:
             secretKeyRef:
               name: yusi-secret
               key: MILVUS_PASSWORD
+        - name: MILVUS_URI
+          valueFrom:
+            secretKeyRef:
+              name: yusi-secret
+              key: MILVUS_URI
         - name: ALIYUN_DM_ACCESS_KEY_ID
           valueFrom:
             secretKeyRef:
