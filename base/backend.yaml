@@ -97,7 +97,7 @@ spec:
               name: yusi-secret
               key: AMAP_KEY
         - name: SPRING_DATASOURCE_URL
-          value: "jdbc:mysql://$(MYSQL_HOST):$(MYSQL_PORT)/$(MYSQL_DB)?useUnicode=true&characterEncoding=utf8&autoReconnect=true&zeroDateTimeBehavior=convertToNull&serverTimezone=UTC&useSSL=false"
+          value: "jdbc:mysql://$(MYSQL_HOST):$(MYSQL_PORT)/$(MYSQL_DB)?useUnicode=true&characterEncoding=utf8&autoReconnect=true&zeroDateTimeBehavior=convertToNull&serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true"
         - name: REDIS_SDK_CONFIG_HOST
           value: "$(REDIS_HOST)"
         - name: REDIS_SDK_CONFIG_PORT
