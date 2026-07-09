@@ -41,6 +41,16 @@ spec:
             secretKeyRef:
               name: yusi-secret
               key: CHAT_MODEL_APIKEY
+        - name: QWEN_APIKEY
+          valueFrom:
+            secretKeyRef:
+              name: yusi-secret
+              key: QWEN_APIKEY
+        - name: DEEPSEEK_APIKEY
+          valueFrom:
+            secretKeyRef:
+              name: yusi-secret
+              key: DEEPSEEK_APIKEY
         - name: EMBEDDING_MODEL_APIKEY
           valueFrom:
             secretKeyRef:
@@ -51,6 +61,36 @@ spec:
             secretKeyRef:
               name: yusi-secret
               key: YUSI_ENCRYPTION_KEY
+        - name: REDIS_SDK_CONFIG_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: yusi-secret
+              key: REDIS_PASSWORD
+        - name: MILVUS_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: yusi-secret
+              key: MILVUS_TOKEN
+        - name: MILVUS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: yusi-secret
+              key: MILVUS_PASSWORD
+        - name: ALIYUN_DM_ACCESS_KEY_ID
+          valueFrom:
+            secretKeyRef:
+              name: yusi-secret
+              key: ALIYUN_DM_ACCESS_KEY_ID
+        - name: ALIYUN_DM_ACCESS_KEY_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: yusi-secret
+              key: ALIYUN_DM_ACCESS_KEY_SECRET
+        - name: AMAP_KEY
+          valueFrom:
+            secretKeyRef:
+              name: yusi-secret
+              key: AMAP_KEY
         - name: SPRING_DATASOURCE_URL
           value: "jdbc:mysql://$(MYSQL_HOST):$(MYSQL_PORT)/$(MYSQL_DB)?useUnicode=true&characterEncoding=utf8&autoReconnect=true&zeroDateTimeBehavior=convertToNull&serverTimezone=UTC&useSSL=false"
         - name: REDIS_SDK_CONFIG_HOST
