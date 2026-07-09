@@ -4,16 +4,26 @@ kind: Kustomization
 namespace: yusi-prod
 
 resources:
-  - ../../base
+- ../../base
 
 patches:
-  - target:
-      kind: Ingress
-      name: yusi-ingress
-    patch: |-
-      - op: replace
-        path: /spec/rules/0/host
-        value: yusi.aseubel.com
-      - op: replace
-        path: /spec/tls/0/hosts/0
-        value: yusi.aseubel.com
+- patch: |-
+    - op: replace
+      path: /spec/rules/0/host
+      value: yusi.aseubel.com
+    - op: replace
+      path: /spec/tls/0/hosts/0
+      value: yusi.aseubel.com
+  target:
+    kind: Ingress
+    name: yusi-ingress
+images:
+- name: yusi-backend
+  newName: ghcr.io/aseubel/yusi/yusi-backend
+  newTag: 08a6b6bf9ea3f9318f68a038d9d8afcb061573e4
+- name: yusi-frontend
+  newName: ghcr.io/aseubel/yusi/yusi-frontend
+  newTag: 08a6b6bf9ea3f9318f68a038d9d8afcb061573e4
+- name: yusi-mcp
+  newName: ghcr.io/aseubel/yusi/yusi-mcp
+  newTag: 08a6b6bf9ea3f9318f68a038d9d8afcb061573e4
