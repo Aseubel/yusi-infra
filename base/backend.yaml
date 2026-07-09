@@ -21,7 +21,7 @@ spec:
       containers:
       - name: backend
         image: yusi-backend:latest
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 20611
           name: http
